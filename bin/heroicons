@@ -13,7 +13,7 @@
 namespace Composer;
 
 require __DIR__ . '/..'.'/autoload.php';
-
+//require 'E:\@devOps\Zaimea\zaimea.com\vendor\autoload.php';
 use Illuminate\Filesystem\Filesystem;
 
 $filesystem = new Filesystem();
@@ -39,10 +39,10 @@ if ($zip->open($tempFile) === true) {
     exit;
 }
 
-$filesystem->deleteDirectory(__DIR__ . '/../../resources/views/components');
-$filesystem->ensureDirectoryExists(__DIR__ . '/../../resources/views/components/mini/solid');
-$filesystem->ensureDirectoryExists(__DIR__ . '/../../resources/views/components/outline');
-$filesystem->ensureDirectoryExists(__DIR__ . '/../../resources/views/components/solid');
+$filesystem->deleteDirectory(__DIR__ . '/../resources/views/components');
+$filesystem->ensureDirectoryExists(__DIR__ . '/../resources/views/components/mini/solid');
+$filesystem->ensureDirectoryExists(__DIR__ . '/../resources/views/components/outline');
+$filesystem->ensureDirectoryExists(__DIR__ . '/../resources/views/components/solid');
 echo 'Clear Directory for updating icons done!';
 
 $baseFolder = __DIR__ . '/temp/heroicons-master/src';
@@ -54,7 +54,7 @@ foreach (glob($baseFolder . '/24/outline/*.svg') as $filename) {
     file_put_contents($filename, preg_replace('/ stroke="[^"]*"/', '', file_get_contents($filename)));
     file_put_contents($filename, str_replace('<svg', '<svg {{ $attributes }} stroke="currentColor"', file_get_contents($filename)));
 
-    $to = __DIR__ . '/../../resources/views/components/outline/' . $name;
+    $to = __DIR__ . '/../resources/views/components/outline/' . $name;
 
     $filesystem->copy($filename, $to);
 }
@@ -67,7 +67,7 @@ foreach (glob($baseFolder . '/24/solid/*.svg') as $filename) {
     file_put_contents($filename, preg_replace('/ fill="[^"]*"/', '', file_get_contents($filename)));
     file_put_contents($filename, str_replace('<svg', '<svg {{ $attributes }} fill="currentColor"', file_get_contents($filename)));
 
-    $to = __DIR__ . '/../../resources/views/components/solid/' . $name;
+    $to = __DIR__ . '/../resources/views/components/solid/' . $name;
 
     $filesystem->copy($filename, $to);
 }
@@ -80,13 +80,13 @@ foreach (glob($baseFolder . '/20/solid/*.svg') as $filename) {
     file_put_contents($filename, preg_replace('/ fill="[^"]*"/', '', file_get_contents($filename)));
     file_put_contents($filename, str_replace('<svg', '<svg {{ $attributes }} fill="currentColor"', file_get_contents($filename)));
 
-    $to = __DIR__ . '/../../resources/views/components/mini/solid/' . $name;
+    $to = __DIR__ . '/../resources/views/components/mini/solid/' . $name;
 
     $filesystem->copy($filename, $to);
 }
 echo "/20/solid/ -> /mini/solid successfully \n";
 
-$filesystem->copy(__DIR__ . '/temp/heroicons-master/LICENSE', __DIR__ . '/../../resources/views/components/LICENSE');
+$filesystem->copy(__DIR__ . '/temp/heroicons-master/LICENSE', __DIR__ . '/../resources/views/components/LICENSE');
 
 echo 'Cleanup files...' . PHP_EOL;
 
