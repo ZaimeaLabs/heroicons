@@ -50,6 +50,7 @@ You can find a list of all icons and variants on the [Heroicons] website
 
 **Available variants:**
 - mini.solid
+- micro.solid
 - solid
 - outline
 

@@ -12,7 +12,7 @@
 
 namespace Composer;
 
-require __DIR__ . '/..'.'/autoload.php';
+require __DIR__ . '/..'.'/vendor/autoload.php';
 //require 'E:\@devOps\Zaimea\zaimea.com\vendor\autoload.php';
 use Illuminate\Filesystem\Filesystem;
 
@@ -41,6 +41,7 @@ if ($zip->open($tempFile) === true) {
 
 $filesystem->deleteDirectory(__DIR__ . '/../resources/views/components');
 $filesystem->ensureDirectoryExists(__DIR__ . '/../resources/views/components/mini/solid');
+$filesystem->ensureDirectoryExists(__DIR__ . '/../resources/views/components/micro/solid');
 $filesystem->ensureDirectoryExists(__DIR__ . '/../resources/views/components/outline');
 $filesystem->ensureDirectoryExists(__DIR__ . '/../resources/views/components/solid');
 echo 'Clear Directory for updating icons done!';
@@ -85,6 +86,19 @@ foreach (glob($baseFolder . '/20/solid/*.svg') as $filename) {
     $filesystem->copy($filename, $to);
 }
 echo "/20/solid/ -> /mini/solid successfully \n";
+
+foreach (glob($baseFolder . '/16/solid/*.svg') as $filename) {
+    $pathWithoutBase = str_replace($baseFolder . '/', '', $filename);
+    $explodedNames = explode('/', $pathWithoutBase);
+    $name = str_replace('.svg', '.blade.php', $explodedNames[2]);
+    file_put_contents($filename, preg_replace('/ fill="[^"]*"/', '', file_get_contents($filename)));
+    file_put_contents($filename, str_replace('<svg', '<svg {{ $attributes }} fill="currentColor"', file_get_contents($filename)));
+
+    $to = __DIR__ . '/../resources/views/components/micro/solid/' . $name;
+
+    $filesystem->copy($filename, $to);
+}
+echo "/16/solid/ -> micro/solid successfully \n";
 
 $filesystem->copy(__DIR__ . '/temp/heroicons-master/LICENSE', __DIR__ . '/../resources/views/components/LICENSE');
 

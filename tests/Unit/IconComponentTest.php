@@ -2,16 +2,18 @@
 
 declare(strict_types=1);
 
-use ZaimeaLabs\Heroicons\Icon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use ZaimeaLabs\Heroicons\Icon;
 
 function getIcons(string $variant): Collection
 {
-    $files = (new Finder())->files()->in(__DIR__ . "/../../resources/views/components/{$variant}");
+    $iconsPath = str_replace('.', '/', $variant);
+
+    $files = (new Finder())->files()->in(__DIR__ . "/../../src/views/components/{$iconsPath}");
 
     return collect($files)->map(fn (SplFileInfo $file) => [
         'icon'    => Str::before($file->getFilename(), '.blade.php'),
@@ -60,41 +62,44 @@ it('should get the correct icon variant', function (string $expected, Icon $icon
 })->with([
     ['outline', new Icon(name: 'home', variant: 'outline')],
     ['outline', new Icon(name: 'home', outline: true)],
-    ['solid',   new Icon(name: 'home', solid: true)],
+    ['solid', new Icon(name: 'home', solid: true)],
     ['mini.solid', new Icon(name: 'home', variant: 'mini', mini: true)],
     ['mini.solid', new Icon(name: 'home', mini: true)],
+    ['micro.solid', new Icon(name: 'home', variant: 'micro', micro: true)],
+    ['micro.solid', new Icon(name: 'home', micro: true)],
 ]);
 
-it('should render all components with attributes', function (string $icon, string $variant) {
-    $variant = str_replace('/', '.', $variant);
+it('should render all variant icons', function (string $variant) {
+    foreach (getIcons($variant) as $data) {
+        $icon = $data['icon'];
 
-    $html = Blade::render(<<<BLADE
-        <x-icon name="{$icon}" variant="{$variant}" class="w-5 h-5" style="foo: bar" />
-        <x-heroicons::{$variant}.{$icon} class="w-10 h-10" />
-    BLADE);
+        $iconVariant = str_replace('/', '.', $variant);
 
-    $view = (new Icon(name: $icon, variant: $variant))->render();
+        $html = Blade::render(<<<BLADE
+            <x-icon name="{$icon}" variant="{$iconVariant}" class="w-5 h-5" style="foo: bar" />
+            <x-heroicons::{$iconVariant}.{$icon} class="w-10 h-10" />
+        BLADE);
 
-    $expected = Str::replace('/', '.', "heroicons::components.{$variant}.{$icon}");
+        $view = (new Icon(name: $icon, variant: $iconVariant))->render();
 
-    expect($view->name())->toBe($expected);
+        $expected = Str::replace('/', '.', "heroicons::components.{$iconVariant}.{$icon}");
 
-    expect($html)
-        ->toContain('<svg')
-        ->toContain('</svg>')
-        ->toContain('class="w-5 h-5"')
-        ->toContain('style="foo: bar"')
-        ->toContain('class="w-10 h-10"')
-        ->not->toContain('<x-heroicons')
-        ->not->toContain('<x-icon');
-})->with(
-    collect()
-        ->push(getIcons('outline'))
-        ->push(getIcons('solid'))
-        ->push(getIcons('mini/solid'))
-        ->collapse()
-        ->toArray(),
-);
+        expect($view->name())->toBe($expected)
+            ->and($html)
+            ->toContain('<svg')
+            ->toContain('</svg>')
+            ->toContain('class="w-5 h-5"')
+            ->toContain('style="foo: bar"')
+            ->toContain('class="w-10 h-10"')
+            ->not->toContain('<x-heroicons')
+            ->not->toContain('<x-icon');
+    }
+})->with([
+    'outline',
+    'solid',
+    'mini.solid',
+    'micro.solid',
+]);
 
 it('should inject the mini variant when it is given', function () {
     $icon = new Icon(name: 'home', solid: true, mini: true);
@@ -103,3 +108,12 @@ it('should inject the mini variant when it is given', function () {
 
     expect($variant)->toEndWith('mini.solid');
 });
+
+it('should inject the micro variant when it is given', function () {
+    $icon = new Icon(name: 'home', solid: true, micro: true);
+
+    $variant = $this->invokeMethod($icon, 'getVariant');
+
+    expect($variant)->toEndWith('micro.solid');
+});
+

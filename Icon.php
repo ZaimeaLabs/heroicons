@@ -16,6 +16,7 @@ class Icon extends Component
         public bool     $solid   = false,
         public bool     $outline = false,
         public bool     $mini    = false,
+        public bool     $micro   = false,
     )
     {
         $this->variant = $this->getVariant();
@@ -24,9 +25,13 @@ class Icon extends Component
         {
             $this->variant = 'mini.solid';
         }
+
+        if ($micro || $this->variant === 'micro') {
+            $this->variant = 'micro.solid';
+        }
     }
 
-    private function getVariant(): ?string
+    private function getVariant(): string
     {
         return match (true)
         {
@@ -34,6 +39,7 @@ class Icon extends Component
             $this->solid          => 'solid',
             $this->outline        => 'outline',
             $this->mini           => 'mini.solid',
+            $this->micro          => 'micro.solid',
             default               => $this->defaultVariant(),
         };
     }
@@ -45,6 +51,7 @@ class Icon extends Component
 
     public function render(): View|Factory
     {
+        /** @phpstan-ignore-next-line */
         return view("heroicons::components.{$this->variant}.{$this->name}");
     }
 }

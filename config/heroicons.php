@@ -17,7 +17,7 @@ return [
     | Icons Variants
     |--------------------------------------------------------------------------
     |
-    | Variant can be 'solid' or 'outline'
+    | The icon variant can be 'solid', 'outline', 'mini.solid', 'micro.solid'
     |
     */
     'variant' => 'outline',
