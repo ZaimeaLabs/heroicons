@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use ZaimeaLabs\Heroicons\HeroiconsServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestaTestCase;
 use ReflectionClass;
+use Zaimea\Heroicons\HeroiconsServiceProvider;
 
 abstract class TestCase extends OrchestaTestCase
 {

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
-use ZaimeaLabs\Heroicons\Icon;
+use Zaimea\Heroicons\Icon;
 
 function getIcons(string $variant): Collection
 {

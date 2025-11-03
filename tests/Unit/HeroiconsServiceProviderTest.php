@@ -28,9 +28,11 @@ it('should add the publish groups', function () {
         'heroicons.config',
     ]);
 
+    $expected = 'config' . DIRECTORY_SEPARATOR . 'heroicons.php';
+
     expect($publishGroups['heroicons.config'])->toBeArray()->toHaveCount(1);
     expect(array_key_first($publishGroups['heroicons.config']))->toBeFile();
-    expect(array_values($publishGroups['heroicons.config'])[0])->toEndWith('config/zaimealabs/heroicons.php');
+    expect(array_values($publishGroups['heroicons.config'])[0])->toEndWith($expected);
 });
 
 it('should register the blade components', function () {

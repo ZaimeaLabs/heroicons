@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use ZaimeaLabs\Heroicons\Icon;
 use Illuminate\View\Compilers\BladeCompiler;
 use Tests\TestCase;
+use Zaimea\Heroicons\Icon;
 
 class RegisterIconComponentAliasTest extends TestCase
 {

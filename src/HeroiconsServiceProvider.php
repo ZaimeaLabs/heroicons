@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ZaimeaLabs\Heroicons;
+namespace Zaimea\Heroicons;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
@@ -16,15 +16,15 @@ class HeroiconsServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->loadViewsFrom(__DIR__ . '/resources/views', 'heroicons');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'heroicons');
 
         $this->publishes(
-            [__DIR__ . '/config/heroicons.php' => config_path('zaimealabs/heroicons.php')],
+            [__DIR__ . '/../config/heroicons.php' => config_path('heroicons.php')],
             'heroicons.config',
         );
 
         $this->publishes(
-            [__DIR__ . '/resources/views' => resource_path('views/vendor/zaimealabs/heroicons')],
+            [__DIR__ . '/../resources/views' => resource_path('views/vendor/zaimea/heroicons')],
             'heroicons.views',
         );
 
@@ -47,6 +47,6 @@ class HeroiconsServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/config/heroicons.php', 'heroicons');
+        $this->mergeConfigFrom(__DIR__ . '/../config/heroicons.php', 'heroicons');
     }
 }
