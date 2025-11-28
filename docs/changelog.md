@@ -7,4 +7,4 @@ sidebar: true
 rightbar: false
 ---
 
-All notable changes to Heroicons are documented [on GitHub](https://github.com/zaimealabs/heroicons/blob/main/CHANGELOG.md)
+All notable changes to `Heroicons` are documented [on GitHub](https://github.com/zaimealabs/heroicons/blob/main/CHANGELOG.md)
